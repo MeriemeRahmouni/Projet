@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Gestion des profils</title>
+<script>
+function confirmer(){
+	return confirm("Voulez vous vraiment supprimer ce profil?");
+}
+</script>
+
+</head>
+<body>
+Bonjour #{ResponsableController.responsable.username}
+
+<h3>Ajouter un nouveau profil</h3>
+<h:form id="form1">
+
+<h:panelGroup>
+
+<h:outputText value="#{responsableBean1.success}" style="color:green; font-weight:bold"></h:outputText>
+
+<table>
+<tr>
+<td><h:outputLabel value="Profil" for="group_id"></h:outputLabel></td>
+<td><h:selectOneMenu id="group_id" value="#{responsableBean1.group_id}"> 
+	<f:selectItem itemValue="1" itemLabel="Admin"></f:selectItem>
+	<f:selectItem itemValue="2" itemLabel="Commercial"></f:selectItem>
+	<f:selectItem itemValue="3" itemLabel="Comptable"></f:selectItem>
+	</h:selectOneMenu></td>
+</tr>
+
+
+<tr>
+<td><h:outputLabel value="Username" for="username"></h:outputLabel></td> 
+<td><h:inputText required="true" requiredMessage="Le champ 'Username' est obligatoire" value="#{responsableBean1.username}" id="username"></h:inputText>
+<h:message style="border: 1px solid blue; color:red;" for="username"></h:message>
+</td>
+</tr>
+
+<tr>
+<td><h:outputLabel value="Password" for="password"></h:outputLabel></td>
+<td><h:inputText required="true" requiredMessage="Le champ 'Password' est obligatoire" value="#{responsableBean1.password}" id="password"></h:inputText>
+<h:message style="border: 1px solid blue; color:red;" for="password"></h:message>
+</td>
+</tr>
+
+<tr>
+<td><h:outputLabel value="Nom" for="nom"></h:outputLabel></td>
+<td><h:inputText required="true" requiredMessage="Le champ 'Nom' est obligatoire" value="#{responsableBean1.nom}" id="nom"></h:inputText>
+<h:message style="border: 1px solid blue; color:red;" for="nom"></h:message>
+</td>
+</tr>
+
+<tr>
+<td><h:outputLabel value="Prenom" for="prenom"></h:outputLabel></td>
+<td><h:inputText required="true" requiredMessage="Le champ 'Prénom' est obligatoire" value="#{responsableBean1.prenom}" id="prenom"></h:inputText>
+<h:message style="border: 1px solid blue; color:red;" for="prenom"></h:message>
+</td>
+</tr>
+
+<tr>
+<td><h:outputLabel value="Tel" for="tel"></h:outputLabel></td>
+<td><h:inputText required="true" requiredMessage="Le champ 'Tel' est obligatoire" value="#{responsableBean1.tel}" id="tel"></h:inputText>
+<h:message style="border: 1px solid blue; color:red;" for="tel"></h:message>
+</td>
+</tr>
+<h:inputHidden value="#{responsableBean1.id}"></h:inputHidden>
+<h:inputHidden value="#{responsableBean1.operation}"></h:inputHidden>
+<tr>
+<td><h:commandButton value="Ajouter" actionListener="#{responsableBean1.addResponsable}"></h:commandButton></td>
+<td><h:commandButton value="Annuler" actionListener="#{responsableBean1.cancelAction}"></h:commandButton></td>
+</tr>
+</table>
+
+</h:panelGroup>
+</h:form>
+
+
+
+
+<h:form id="forms">
+
+
+<h3>La liste des admins</h3>
+<h:dataTable value="#{responsableBean1.responsableListAdmin}" var="o" border="1">
+
+<h:column>
+<f:facet name="header">Id</f:facet>
+<h:outputText value="#{o.id}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Username</f:facet>
+<h:outputText value="#{o.username}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Password</f:facet>
+<h:outputText value="#{o.password}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Nom</f:facet>
+<h:outputText value="#{o.nom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Prénom</f:facet>
+<h:outputText value="#{o.prenom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Tél</f:facet>
+<h:outputText value="#{o.tel}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Profil</f:facet>
+<h:panelGroup rendered="#{o.group_id eq 1}">
+<h:outputText value="Admin"></h:outputText>
+</h:panelGroup>
+</h:column>
+<h:column>
+<f:facet name="header">Supprimer</f:facet>
+<h:commandLink onclick="return confirmer();" actionListener="#{responsableBean1.deleteResponsable}">
+<h:graphicImage width="25px" value="/image/supp.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+</h:commandLink>
+</h:column>
+
+<h:column>
+<f:facet name="header">Modifier</f:facet>
+<h:link>
+<h:graphicImage width="25px" value="/image/update.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+<f:param name="operation" value="edit"></f:param>
+</h:link>
+</h:column>
+
+</h:dataTable>
+
+
+
+<h3>Les liste des commerciaux</h3>
+<h:dataTable value="#{responsableBean1.responsableListCommercial}" var="o" border="1">
+
+<h:column>
+<f:facet name="header">Id</f:facet>
+<h:outputText value="#{o.id}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Username</f:facet>
+<h:outputText value="#{o.username}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Password</f:facet>
+<h:outputText value="#{o.password}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Nom</f:facet>
+<h:outputText value="#{o.nom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Prénom</f:facet>
+<h:outputText value="#{o.prenom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Tél</f:facet>
+<h:outputText value="#{o.tel}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Profil</f:facet>
+<h:panelGroup rendered="#{o.group_id eq 2}">
+<h:outputText value="Commercial"></h:outputText>
+</h:panelGroup>
+</h:column>
+<h:column>
+<f:facet name="header">Supprimer</f:facet>
+<h:commandLink onclick="return confirmer();" actionListener="#{responsableBean1.deleteResponsable}">
+<h:graphicImage width="25px" value="/image/supp.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+</h:commandLink>
+</h:column>
+<h:column>
+<f:facet name="header">Modifier</f:facet>
+<h:link>
+<h:graphicImage width="25px" value="/image/update.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+<f:param name="operation" value="edit"></f:param>
+</h:link>
+</h:column>
+</h:dataTable>
+
+<h3>La liste des comptables</h3>
+<h:dataTable value="#{responsableBean1.responsableListComptable}" var="o" border="1">
+
+<h:column>
+<f:facet name="header">Id</f:facet>
+<h:outputText value="#{o.id}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Username</f:facet>
+<h:outputText value="#{o.username}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Password</f:facet>
+<h:outputText value="#{o.password}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Nom</f:facet>
+<h:outputText value="#{o.nom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Prénom</f:facet>
+<h:outputText value="#{o.prenom}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Tél</f:facet>
+<h:outputText value="#{o.tel}"></h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">Profil</f:facet>
+<h:panelGroup rendered="#{o.group_id eq 3}">
+<h:outputText value="Comptable"></h:outputText>
+</h:panelGroup>
+</h:column>
+
+<h:column>
+<f:facet name="header">Supprimer</f:facet>
+<h:commandLink onclick="return confirmer();" actionListener="#{responsableBean1.deleteResponsable}">
+<h:graphicImage width="25px" value="/image/supp.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+</h:commandLink>
+</h:column>
+<h:column>
+<f:facet name="header">Modifier</f:facet>
+<h:link>
+<h:graphicImage width="25px" value="/image/update.png" />
+<f:param name="id" value="#{o.id}"></f:param>
+<f:param name="operation" value="edit"></f:param>
+</h:link>
+</h:column>
+</h:dataTable>
+</h:form>
+</body>
+</html>
